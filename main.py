@@ -34,6 +34,27 @@ def fetch_uniprot_sequence(uniprot_id):
     uniprot_sequence = str(SeqIO.read(StringIO(response.text), "fasta").seq)
     return uniprot_sequence
 
-def find_best_pdb(uniprot_id, pdb_ids):
-    '''Determines the best PDB structure for a given UniProt ID. Prioritizes sequence coverage, deposition date, and resolution.'''
+def fetch_best_structures(uniprot_id):
+    '''Makes API call to EBI to fetch the PDB IDs for the best structures for a given UniProt ID.'''
+    ebi_url = f"https://www.ebi.ac.uk/pdbe/api/mappings/best_structures/{uniprot_id}"
+    response = requests.get(ebi_url)
+    if response.status_code != 200:
+        print(f"Error fetching data for {uniprot_id}")
+        return None  # UniProt ID not found or error.
     
+    # grab first PDB ID, coverage, start and end positions
+    pdb_data = response.json()
+    pdb_id = pdb_data[uniprot_id][0]["pdb_id"]
+    coverage = pdb_data[uniprot_id][0]["coverage"]
+    start = pdb_data[uniprot_id][0]["start"]
+    end = pdb_data[uniprot_id][0]["end"]
+
+    time.sleep(1)
+    return {"uniprot_id": uniprot_id, "pdb_id": pdb_id, "coverage": coverage, "start": start, "end": end}
+
+def main():
+    data = fetch_best_structures("O00206")
+    print(data)
+
+if __name__ == "__main__":
+    main()
