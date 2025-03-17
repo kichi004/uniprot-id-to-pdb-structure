@@ -20,7 +20,7 @@ def fetch_uniprot_sequence(uniprot_id):
     uniprot_sequence = str(SeqIO.read(StringIO(response.text), "fasta").seq)
     return uniprot_sequence
 
-def fetch_best_structures(uniprot_id):
+def identify_best_structure(uniprot_id):
     '''Makes API call to EBI to fetch the PDB IDs for the best structures for a given UniProt ID.'''
     ebi_url = f"https://www.ebi.ac.uk/pdbe/api/mappings/best_structures/{uniprot_id}"
     response = requests.get(ebi_url)
@@ -38,6 +38,12 @@ def fetch_best_structures(uniprot_id):
     time.sleep(1)
     return {"uniprot_id": uniprot_id, "pdb_id": pdb_id, "coverage": coverage, "start": start, "end": end}
 
+def fetch_pdb_structure(pdb_id):
+    '''Fetches the 3D structure of a protein from the PDB.'''
+    pdbl = Bio.PDB.PDBList()
+    pdb_file_path = pdbl.retrieve_pdb_file(pdb_id, pdir=".", file_format="pdb")
+    return pdb_file_path
+
 def main():
     uniprot_ids_list = read_list("lrr_benchmark_proteins_list.txt")
     print(f"Number of UniProt IDs: {len(uniprot_ids_list)}")
@@ -46,7 +52,7 @@ def main():
     pdb_data_list = []
     for uniprot_id in uniprot_ids_list:
         print(f"{len(pdb_data_list) + 1}. ", end = "")
-        pdb_data = fetch_best_structures(uniprot_id)
+        pdb_data = identify_best_structure(uniprot_id)
         if pdb_data:
             pdb_data_list.append(pdb_data)
             print(pdb_data)
@@ -57,6 +63,5 @@ def main():
         f.write("UniProt ID\tPDB ID\tCoverage\tStart\tEnd\n")
         for pdb_data in pdb_data_list:
             f.write(f"{pdb_data['uniprot_id']}\t{pdb_data['pdb_id']}\t{pdb_data['coverage']}\t{pdb_data['start']}\t{pdb_data['end']}\n")
-
 if __name__ == "__main__":
     main()
