@@ -25,8 +25,8 @@ def fetch_best_structures(uniprot_id):
     ebi_url = f"https://www.ebi.ac.uk/pdbe/api/mappings/best_structures/{uniprot_id}"
     response = requests.get(ebi_url)
     if response.status_code != 200:
-        print(f"Error fetching data for {uniprot_id}")
-        return None  # UniProt ID not found or error.
+        # print(f"Best Structure not Found for {uniprot_id}")
+        return {"uniprot_id": uniprot_id, "pdb_id": "", "coverage": 0, "start": -1, "end": -1}
     
     # grab first PDB ID, coverage, start and end positions
     pdb_data = response.json()
@@ -39,8 +39,24 @@ def fetch_best_structures(uniprot_id):
     return {"uniprot_id": uniprot_id, "pdb_id": pdb_id, "coverage": coverage, "start": start, "end": end}
 
 def main():
-    data = fetch_best_structures("O00206")
-    print(data)
+    uniprot_ids_list = read_list("lrr_benchmark_proteins_list.txt")
+    print(f"Number of UniProt IDs: {len(uniprot_ids_list)}")
+
+    # fetch pdb ids
+    pdb_data_list = []
+    for uniprot_id in uniprot_ids_list:
+        print(f"{len(pdb_data_list) + 1}. ", end = "")
+        pdb_data = fetch_best_structures(uniprot_id)
+        if pdb_data:
+            pdb_data_list.append(pdb_data)
+            print(pdb_data)
+    print(f"Number of PDB IDs fetched: {len(pdb_data_list)}")
+
+    # output list as tsv
+    with open("result_pdbs.tsv", "w") as f:
+        f.write("UniProt ID\tPDB ID\tCoverage\tStart\tEnd\n")
+        for pdb_data in pdb_data_list:
+            f.write(f"{pdb_data['uniprot_id']}\t{pdb_data['pdb_id']}\t{pdb_data['coverage']}\t{pdb_data['start']}\t{pdb_data['end']}\n")
 
 if __name__ == "__main__":
     main()
