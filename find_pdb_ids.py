@@ -63,5 +63,6 @@ def main():
         f.write("UniProt ID\tPDB ID\tCoverage\tStart\tEnd\n")
         for pdb_data in pdb_data_list:
             f.write(f"{pdb_data['uniprot_id']}\t{pdb_data['pdb_id']}\t{pdb_data['coverage']}\t{pdb_data['start']}\t{pdb_data['end']}\n")
+            
 if __name__ == "__main__":
     main()
