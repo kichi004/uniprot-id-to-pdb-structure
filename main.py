@@ -4,25 +4,11 @@ from Bio import Align, SeqIO
 import time
 from io import StringIO
 
-def interpret_tsv(tsv_data):
-    pdb_codes = []
-    tracked_uniprot_id = None
-    tracked_pdb_ids = []
-    for line in tsv_data.split("\n"):
-
-        if line:
-            line_uniprot_id = line.split("\t")[0]
-            line_pdb_id = line.split("\t")[1]
-        if not tracked_uniprot_id:
-            tracked_uniprot_id = line_uniprot_id
-            tracked_pdb_ids = [line_pdb_id]
-        elif tracked_uniprot_id != line_uniprot_id:
-            pdb_codes.append({"uniprot_id": tracked_uniprot_id, "pdb_ids": tracked_pdb_ids})
-            tracked_uniprot_id = line_uniprot_id
-            tracked_pdb_ids = [line_pdb_id]
-        else:
-            tracked_pdb_ids.append(line_pdb_id)
-    return pdb_codes
+def read_list(file_path):
+    '''Reads a list of UniProt IDs from a file.'''
+    with open(file_path, "r") as f:
+        uniprot_ids = f.read().splitlines()
+    return uniprot_ids
 
 def fetch_uniprot_sequence(uniprot_id):
     uniprot_url = f"https://rest.uniprot.org/uniprotkb/accession/{uniprot_id}"
