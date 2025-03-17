@@ -173,3 +173,4 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 idmapping_2025_03_13.tsv
+*.cif
