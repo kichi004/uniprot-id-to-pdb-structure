@@ -1,20 +1,20 @@
-Q02817
-Q01484
-O15230
-Q96JQ0
-Q6V0I7
-O95714
-Q96T58
-P46939
-O75592
-Q8WXH0
-Q5VST9
-Q96RW7
-O94915
-Q9UKN1
-Q9NYQ7
-Q92813
-Q7Z407
-Q6ZR08
-P13611
-Q86WI1
+Q02817 # too long, 5289 AAs
+Q01484 # too long, 3957 AAs \ substituted with U4KXY9 AF
+O15230 # too long, 3695 AAs
+Q96JQ0 # too long, 3298 AAs
+Q6V0I7 # too long, 4981 AAs
+O95714 # too long, 4834 AAs
+Q96T58 # too long, 3664 AAs
+P46939 # too long, 3433 AAs
+O75592 # too long, 4678 AAs
+Q8WXH0 # too long, 6885 AAs
+Q5VST9 # too long, 7968 AAs
+Q96RW7 # too long, 5635 AAs
+O94915 # too long, 3013 AAs
+Q9UKN1 # too long, 5478 AAs
+Q9NYQ7 # too long, 3312 AAs
+Q92813 # membrane protein with no structure information.
+Q7Z407 # too long, 3707 AAs
+Q6ZR08 # too long, 3092 AAs
+P13611 # too long, 3396 AAs
+Q86WI1 # too long, 4243 AAs
