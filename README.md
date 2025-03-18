@@ -18,3 +18,8 @@ It then uses the `MMCIFParser` to isolate the chain and region of interest in th
 `fetch_alphafold.py` uses the Biopython alphafolddb module to fetch AlphaFold structures from the AlphaFold database. 
 
 This is run on the table of proteins without high coverage PDB structures, `low_coverage_pdbs.tsv`. For proteins without an entry in the database, the script returns a list of failed AF fetches as well.
+
+**Run FoldSeek Search**
+
+1. `foldseek easy-search 2bnh.cif foldseek_db/ aln temp_dir/`
+
